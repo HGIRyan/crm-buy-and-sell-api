@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Modules.App.Customer.Contact.Extensions;
 using API.Modules.Base.Auth.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace API
         {
 
             services.AddAuthenticationModule();
+            services.AddCustomerModule();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

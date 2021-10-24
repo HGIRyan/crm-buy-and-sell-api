@@ -7,6 +7,7 @@ namespace API.Modules.Base.Auth.Extensions
     {
         public static IServiceCollection AddAuthenticationModule(this IServiceCollection services)
         {
+            services.AddScoped<IAuthManagerService, AuthManagerService>();
             services.AddScoped<IAuthentication, AuthenticationService>();
 
             return services;
