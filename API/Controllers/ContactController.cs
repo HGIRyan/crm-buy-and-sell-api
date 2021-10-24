@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using API.Contacts.Interfaces;
 using API.Controllers;
 using API.Modules.Base.Auth;
@@ -21,6 +22,13 @@ namespace API.Authentication
         public Contact GetContact(string contactId)
         {
             return _Contact.GetContact(contactId);
+        }
+
+        [HttpGet("/api/contact/GetContactByUsername")]
+        [ProducesResponseType(typeof(SampleCustomers), StatusCodes.Status200OK)]
+        public IEnumerable<SampleCustomers> GetContactByUsername(string username)
+        {
+            return _Contact.GetContactByUsername(username);
         }
     }
 }

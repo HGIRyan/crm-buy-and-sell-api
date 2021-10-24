@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using API.MongoData.Type;
 
 namespace API.Contacts.Interfaces
@@ -7,6 +8,8 @@ namespace API.Contacts.Interfaces
         #region Contacts
 
         Contact GetContact(string contactId);
+
+        IEnumerable<SampleCustomers> GetContactByUsername(string username);
 
         #endregion
     }
