@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using API.MongoData.Type;
+using API.MongoData.Model;
 
-namespace API.Contacts.Interfaces
+namespace API.SampleCustomers.Interfaces
 {
     public interface IContact
     {
@@ -9,7 +8,10 @@ namespace API.Contacts.Interfaces
 
         Contact GetContact(string contactId);
 
-        IEnumerable<SampleCustomers> GetContactByUsername(string username);
+        SampleCustomer GetSampleCustomerById(string mongoId);
+
+        SampleCustomer CreateNewSampleCustomer(string username);
+        SampleCustomer UpdateSampleCustomer(string mongoId, string username);
 
         #endregion
     }

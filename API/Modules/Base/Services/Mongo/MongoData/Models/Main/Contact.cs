@@ -1,7 +1,7 @@
 using System;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace API.MongoData.Type
+namespace API.MongoData.Model
 {
     public class Contact
     {

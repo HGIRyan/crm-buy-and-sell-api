@@ -1,5 +1,5 @@
-using API.Contacts.Interfaces;
-using API.Contacts.Services;
+using API.SampleCustomers.Interfaces;
+using API.SampleCustomers.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Modules.App.Customer.Contact.Extensions

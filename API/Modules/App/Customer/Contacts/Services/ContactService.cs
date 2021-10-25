@@ -1,13 +1,16 @@
-using System.Collections.Generic;
-using API.Contacts.Interfaces;
 using API.Modules.Base.Services;
-using API.MongoData.Type;
-using MongoDB.Driver;
+using API.MongoData.Model;
+using API.SampleCustomers.Interfaces;
 
-namespace API.Contacts.Services
+namespace API.SampleCustomers.Services
 {
     public class ContactsService : BaseService, IContact
     {
+        private readonly ISampleCustomers _sampleCustomerService;
+        public ContactsService(ISampleCustomers sampleCustomerService)
+        {
+            _sampleCustomerService = sampleCustomerService;
+        }
         public Contact GetContact(string contactId)
         {
             return new Contact
@@ -15,19 +18,24 @@ namespace API.Contacts.Services
                 MongoId = contactId
             };
         }
-
-        public IEnumerable<SampleCustomers> GetContactByUsername(string username)
+        public SampleCustomer GetSampleCustomerById(string mongoId)
         {
-            return MongoDbClients(username);
+            return _sampleCustomerService.FindById(mongoId);
         }
-        
-        private IEnumerable<SampleCustomers> MongoDbClients(string username)
+        public SampleCustomer CreateNewSampleCustomer(string username)
         {
-            var client = new MongoClient("mongodb+srv://crm:qEfm4KMJ2p4d78a3@crm-buy-and-sell-api.mfzcs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-            var database = client.GetDatabase("sample_analytics");
-            var collection = database.GetCollection<SampleCustomers>("customers");
-
-            return collection.Find(s => s.username == username).ToList();
+            SampleCustomer newSampleCustomer = new SampleCustomer()
+            {
+                username = username
+            };
+            return _sampleCustomerService.Create(newSampleCustomer);
+        }
+        public SampleCustomer UpdateSampleCustomer(string mongoId, string name)
+        {
+            SampleCustomer sampleCustomer = _sampleCustomerService.FindById(mongoId);
+            sampleCustomer.name = name;
+            _sampleCustomerService.Update(sampleCustomer);
+            return sampleCustomer;
         }
     }
 }

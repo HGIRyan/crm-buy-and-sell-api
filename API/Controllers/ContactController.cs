@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-using API.Contacts.Interfaces;
+using API.SampleCustomers.Interfaces;
 using API.Controllers;
 using API.Modules.Base.Auth;
-using API.MongoData.Type;
+using API.MongoData.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace API.Authentication
 {
     public class ContactController : BaseApiController
     {
         private readonly IContact _Contact;
-
         public ContactController(IContact contact, IAuthManagerService authManager) : base(authManager)
         {
             _Contact = contact;
@@ -23,12 +23,26 @@ namespace API.Authentication
         {
             return _Contact.GetContact(contactId);
         }
-
-        [HttpGet("/api/contact/GetContactByUsername")]
-        [ProducesResponseType(typeof(SampleCustomers), StatusCodes.Status200OK)]
-        public IEnumerable<SampleCustomers> GetContactByUsername(string username)
+        
+        [HttpGet("/api/SampleCustomer/Find")]
+        [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
+        public SampleCustomer GetSampleCustomerById(string mongoId)
         {
-            return _Contact.GetContactByUsername(username);
+            return _Contact.GetSampleCustomerById(mongoId);
+        }
+        
+        [HttpGet("/api/SampleCustomer/Create")]
+        [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
+        public SampleCustomer CreateNewSampleCustomer(string username)
+        {
+            return _Contact.CreateNewSampleCustomer(username);
+        }
+        
+        [HttpGet("/api/SampleCustomer/Update")]
+        [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
+        public SampleCustomer UpdateSampleCustomer(string mongoId, string username)
+        {
+            return _Contact.UpdateSampleCustomer(mongoId, username);
         }
     }
 }

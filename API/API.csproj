@@ -10,10 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\App\Customer\Contacts\Buyer" />
-    <Folder Include="Modules\App\Customer\Contacts\Seller" />
-    <Folder Include="Modules\App\Customer\Inventory" />
     <Folder Include="Modules\App\Integrations" />
+    <Folder Include="Modules\App\Shared\Interfaces" />
+    <Folder Include="Modules\App\Shared\Repositories" />
   </ItemGroup>
 
 </Project>
