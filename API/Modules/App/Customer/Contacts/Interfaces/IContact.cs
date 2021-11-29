@@ -1,4 +1,5 @@
 using API.MongoData.Model;
+using API.MongoData.Models.Auth;
 
 namespace API.SampleCustomers.Interfaces
 {
@@ -12,7 +13,7 @@ namespace API.SampleCustomers.Interfaces
 
         SampleCustomer CreateNewSampleCustomer(string username);
         SampleCustomer UpdateSampleCustomer(string mongoId, string username);
-
+        
         #endregion
     }
 }

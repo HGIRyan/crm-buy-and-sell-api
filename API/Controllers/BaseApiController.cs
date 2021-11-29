@@ -8,7 +8,7 @@ namespace API.Controllers
     {
         #region Settings
 
-        public IAuthManagerService _authManager;
+        protected readonly IAuthManagerService _authManager;
 
         #endregion
 

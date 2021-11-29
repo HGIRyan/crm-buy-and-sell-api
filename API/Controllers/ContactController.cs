@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using API.SampleCustomers.Interfaces;
 using API.Controllers;
 using API.Modules.Base.Auth;
 using API.MongoData.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 
 namespace API.Authentication
 {
@@ -24,6 +23,7 @@ namespace API.Authentication
             return _Contact.GetContact(contactId);
         }
         
+        [Authorize]
         [HttpGet("/api/SampleCustomer/Find")]
         [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
         public SampleCustomer GetSampleCustomerById(string mongoId)
@@ -37,11 +37,12 @@ namespace API.Authentication
         {
             return _Contact.CreateNewSampleCustomer(username);
         }
-        
+
         [HttpGet("/api/SampleCustomer/Update")]
         [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
         public SampleCustomer UpdateSampleCustomer(string mongoId, string username)
         {
+            var account = _authManager;
             return _Contact.UpdateSampleCustomer(mongoId, username);
         }
     }

@@ -1,4 +1,5 @@
 using API.Modules.Base.Auth.Models;
+using API.MongoData.Models.Auth;
 
 namespace API.Modules.Base.Auth
 {
@@ -13,6 +14,8 @@ namespace API.Modules.Base.Auth
         #region Methods
 
         void AddHeader(string key, string value);
+
+        string CreateToken(UserInfo user);
 
         #endregion
     }
