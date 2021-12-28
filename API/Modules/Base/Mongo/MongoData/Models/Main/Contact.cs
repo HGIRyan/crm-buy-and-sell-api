@@ -20,6 +20,9 @@ namespace API.MongoData.Model
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string ContactId { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string LogoId { get; set; }
         public string DocType { get; set; }
         public bool IsPrimary { get; set; }
         public string ContactType { get; set; }

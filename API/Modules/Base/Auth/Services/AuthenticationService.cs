@@ -16,11 +16,11 @@ namespace API.Modules.Base.Auth.Services
 {
     public class AuthenticationService : BaseService, IAuthentication
     {
-        private readonly IUserInfo _userInfoService;
+        private readonly IUserInfoRepository _userInfoRepositoryRepository;
 
-        public AuthenticationService(IUserInfo userInfoService)
+        public AuthenticationService(IUserInfoRepository userInfoRepositoryRepository)
         {
-            _userInfoService = userInfoService;
+            _userInfoRepositoryRepository = userInfoRepositoryRepository;
         }
 
 
@@ -35,12 +35,12 @@ namespace API.Modules.Base.Auth.Services
                 Password = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUserDto.Password)),
                 PasswordSalt = hmac.Key
             };
-            return _userInfoService.Create(newUserInfo);
+            return _userInfoRepositoryRepository.Create(newUserInfo);
         }
 
         public UserDto LoginUser(IAuthManagerService authService, UserDto user)
         {
-            var returnedUser = _userInfoService.FindByEmail(user.Email.ToLower());
+            var returnedUser = _userInfoRepositoryRepository.FindByEmail(user.Email.ToLower());
 
             if (returnedUser == null)
                 return new UserDto

@@ -1,4 +1,4 @@
-using API.Auth.Services;
+using API.Auth.Repository;
 using API.Modules.Base.Auth.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +10,7 @@ namespace API.Modules.Base.Auth.Extensions
         {
             services.AddScoped<IAuthManagerService, AuthManagerService>();
             services.AddScoped<IAuthentication, AuthenticationService>();
-            services.AddScoped<IUserInfo, UserInfoService>();
+            services.AddScoped<IUserInfoRepository, UserInfoRepositoryRepository>();
 
             return services;
         }
