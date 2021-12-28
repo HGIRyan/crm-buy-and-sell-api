@@ -30,7 +30,7 @@ namespace API.Modules.Base.Auth.Services
         {
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.NameId, user.Username)
+                new(JwtRegisteredClaimNames.NameId, user.MongoId)
             };
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 

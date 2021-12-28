@@ -1,3 +1,5 @@
+using System;
+using API.Contacts.Interfaces;
 using API.Modules.Base.Services;
 using API.MongoData.Model;
 using API.SampleCustomers.Interfaces;
@@ -7,21 +9,35 @@ namespace API.SampleCustomers.Services
     public class ContactsService : BaseService, IContact
     {
         private readonly ISampleCustomers _sampleCustomerService;
-        public ContactsService(ISampleCustomers sampleCustomerService)
+        private readonly IContactRepository _contactRepository;
+
+        public ContactsService(ISampleCustomers sampleCustomerService, IContactRepository contactRepository)
         {
             _sampleCustomerService = sampleCustomerService;
+            _contactRepository = contactRepository;
         }
+
         public Contact GetContact(string contactId)
         {
-            return new Contact
-            {
-                MongoId = contactId
-            };
+            return _contactRepository.FindById(contactId);
         }
+
+        public Contact AddContact(Contact contact)
+        {
+            return _contactRepository.Create(contact);
+        }
+
         public SampleCustomer GetSampleCustomerById(string mongoId)
         {
-            return _sampleCustomerService.FindById(mongoId);
+            SampleCustomer sample = _sampleCustomerService.FindById(mongoId);
+            if (sample == null)
+            {
+                throw new Exception("Sample Customer Not Found");
+            }
+
+            return sample;
         }
+
         public SampleCustomer CreateNewSampleCustomer(string username)
         {
             SampleCustomer newSampleCustomer = new SampleCustomer()
@@ -30,6 +46,7 @@ namespace API.SampleCustomers.Services
             };
             return _sampleCustomerService.Create(newSampleCustomer);
         }
+
         public SampleCustomer UpdateSampleCustomer(string mongoId, string name)
         {
             SampleCustomer sampleCustomer = _sampleCustomerService.FindById(mongoId);

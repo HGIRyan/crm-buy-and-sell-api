@@ -40,7 +40,7 @@ namespace API.Modules.Base.Auth.Services
 
         public UserDto LoginUser(IAuthManagerService authService, UserDto user)
         {
-            var returnedUser = _userInfoService.FindByUsername(user.Username.ToLower());
+            var returnedUser = _userInfoService.FindByEmail(user.Email.ToLower());
 
             if (returnedUser == null)
                 return new UserDto

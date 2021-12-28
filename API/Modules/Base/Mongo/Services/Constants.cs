@@ -12,5 +12,10 @@ namespace API.MongoData
       public const string Database = "user";
       public const string Collection = "user_info";
     }
+    public struct Contacts
+    {
+      public const string Database = "contacts";
+      public const string Collection = "contacts";
+    }
   }
 }

@@ -4,6 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace API.MongoData.Models.Auth
 {
+    [BsonIgnoreExtraElements]
     public class UserInfo
     {
         public UserInfo()

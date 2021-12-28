@@ -19,22 +19,26 @@ namespace API.Auth.Services
             _userInfo = database.GetCollection<UserInfo>(Documents.UserInfo.Collection);
         }
         
-        public UserInfo Create(UserInfo sampleCustomer)
+        public UserInfo Create(UserInfo user)
         {
-            _userInfo.InsertOne(sampleCustomer);
-            return sampleCustomer;
+            _userInfo.InsertOne(user);
+            return user;
         }
 
         public UserInfo FindById(string mongoId)
         {
-            return _userInfo.Find(x => x.MongoId == mongoId).SingleOrDefault();
+            return _userInfo.Find(x => x.MongoId == mongoId).FirstOrDefault();
         }
         
         public UserInfo FindByUsername(string username)
         {
-            return _userInfo.Find(x => x.Username == username).SingleOrDefault();
+            return _userInfo.Find(x => x.Username == username).FirstOrDefault();
         }
 
+        public UserInfo FindByEmail(string email)
+        {
+            return _userInfo.Find(x => x.Email == email).FirstOrDefault();
+        }
 
         public IList<UserInfo> Read()
         {

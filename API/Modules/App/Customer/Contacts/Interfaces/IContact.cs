@@ -1,5 +1,4 @@
 using API.MongoData.Model;
-using API.MongoData.Models.Auth;
 
 namespace API.SampleCustomers.Interfaces
 {
@@ -8,6 +7,7 @@ namespace API.SampleCustomers.Interfaces
         #region Contacts
 
         Contact GetContact(string contactId);
+        Contact AddContact(Contact contact);
 
         SampleCustomer GetSampleCustomerById(string mongoId);
 

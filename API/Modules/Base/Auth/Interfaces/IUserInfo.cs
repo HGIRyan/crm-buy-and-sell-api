@@ -10,6 +10,7 @@ namespace API.Modules.Base.Auth
         UserInfo Create(UserInfo sampleCustomer);
         UserInfo FindById(string mongoId);
         UserInfo FindByUsername(string username);
+        UserInfo FindByEmail(string email);
         IList<UserInfo> Read();
         void Update(UserInfo sampleCustomer);
         void Delete(string mongoDb);

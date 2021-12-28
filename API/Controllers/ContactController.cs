@@ -8,34 +8,41 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Authentication
 {
+    [Authorize]
     public class ContactController : BaseApiController
     {
-        private readonly IContact _Contact;
+        private readonly IContact _contact;
+
         public ContactController(IContact contact, IAuthManagerService authManager) : base(authManager)
         {
-            _Contact = contact;
+            _contact = contact;
         }
 
         [HttpGet("/api/contact/GetContact")]
-        [ProducesResponseType(typeof(Contact), StatusCodes.Status200OK)]
-        public Contact GetContact(string contactId)
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public IActionResult GetContact(string contactId)
         {
-            return _Contact.GetContact(contactId);
+            return Ok(_contact.GetContact(contactId));
         }
-        
-        [Authorize]
+        [HttpPost("/api/contact/AddContact")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public IActionResult AddContact(Contact contact)
+        {
+            return Ok(_contact.AddContact(contact));
+        }
+
         [HttpGet("/api/SampleCustomer/Find")]
         [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
-        public SampleCustomer GetSampleCustomerById(string mongoId)
+        public IActionResult GetSampleCustomerById(string mongoId)
         {
-            return _Contact.GetSampleCustomerById(mongoId);
+            return Ok(_contact.GetSampleCustomerById(mongoId));
         }
-        
+
         [HttpGet("/api/SampleCustomer/Create")]
         [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
         public SampleCustomer CreateNewSampleCustomer(string username)
         {
-            return _Contact.CreateNewSampleCustomer(username);
+            return _contact.CreateNewSampleCustomer(username);
         }
 
         [HttpGet("/api/SampleCustomer/Update")]
@@ -43,7 +50,7 @@ namespace API.Authentication
         public SampleCustomer UpdateSampleCustomer(string mongoId, string username)
         {
             var account = _authManager;
-            return _Contact.UpdateSampleCustomer(mongoId, username);
+            return _contact.UpdateSampleCustomer(mongoId, username);
         }
     }
 }
