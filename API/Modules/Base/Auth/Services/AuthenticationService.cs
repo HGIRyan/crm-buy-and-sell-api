@@ -2,7 +2,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using API.Auth.Dto;
+using API.Modules.App.Customer.Logos.Interfaces;
 using API.Modules.Base.Services;
+using API.MongoData.Model;
 using API.MongoData.Models.Auth;
 
 namespace API.Modules.Base.Auth.Services
@@ -10,10 +12,13 @@ namespace API.Modules.Base.Auth.Services
     public class AuthenticationService : BaseService, IAuthentication
     {
         private readonly IUserInfoRepository _userInfoRepositoryRepository;
+        private readonly ILogoConfigService _logoConfigService;
 
-        public AuthenticationService(IUserInfoRepository userInfoRepositoryRepository)
+        public AuthenticationService(IUserInfoRepository userInfoRepositoryRepository,
+            ILogoConfigService logoConfigService)
         {
             _userInfoRepositoryRepository = userInfoRepositoryRepository;
+            _logoConfigService = logoConfigService;
         }
 
 
@@ -21,8 +26,11 @@ namespace API.Modules.Base.Auth.Services
         {
             using var hmac = new HMACSHA512();
 
+            var logoConfig = _logoConfigService.CreateLogoConfig(new LogoConfig());
+
             UserInfo newUserInfo = new UserInfo()
             {
+                LogoId = logoConfig.LogoConfigId,
                 Username = registerUserDto.Username.ToLower(),
                 Email = registerUserDto.Email,
                 Password = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUserDto.Password)),
