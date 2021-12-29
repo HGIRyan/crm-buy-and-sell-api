@@ -3,7 +3,7 @@ using API.MongoData.Models.Auth;
 
 namespace API.Modules.Base.Auth
 {
-    public interface IUserInfo
+    public interface IUserInfoRepository
     {
         #region UserInfo
 

@@ -14,12 +14,10 @@ namespace API.Authentication
         #region Settings
 
         private readonly IAuthentication _authentication;
-        private readonly IAuthManagerService _authManager;
 
         public AuthController(IAuthentication authentication, IAuthManagerService authManager) : base(authManager)
         {
             _authentication = authentication;
-            _authManager = authManager;
         }
 
         #endregion

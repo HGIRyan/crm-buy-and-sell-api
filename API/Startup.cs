@@ -1,11 +1,14 @@
+using System;
 using System.Text;
 using API.Extensions.DependancyInjection;
 using API.Modules.App.Customer.Contact.Extensions;
 using API.Modules.Base.Auth.Extensions;
 using API.Modules.Base.Services.Mongo.MongoData;
+using API.Modules.Base.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,9 +30,27 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var settings = Configuration.Get<Settings>();
             //Configures MongoDb
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
             services.AddSingleton<IMongoSettings>(x => x.GetRequiredService<IOptions<MongoSettings>>().Value);
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".cookie.fnf";
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.Cookie.IsEssential = true;
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSingleton<ISettings>(settings);
 
             services.AddAuthenticationModule();
             services.AddCustomerModule();
@@ -67,6 +88,10 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCookiePolicy();
+
+            app.UseSession();
 
             app.UseCors();
 

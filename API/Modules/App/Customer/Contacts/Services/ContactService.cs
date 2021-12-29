@@ -1,8 +1,10 @@
 using System;
 using API.Contacts.Interfaces;
+using API.Modules.Base.Auth;
 using API.Modules.Base.Services;
 using API.MongoData.Model;
 using API.SampleCustomers.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace API.SampleCustomers.Services
 {
@@ -17,8 +19,9 @@ namespace API.SampleCustomers.Services
             _contactRepository = contactRepository;
         }
 
-        public Contact GetContact(string contactId)
+        public Contact GetContact(IAuthManagerService authService, string contactId)
         {
+            var logoId = authService.AuthManagerFields.GetSession();
             return _contactRepository.FindById(contactId);
         }
 

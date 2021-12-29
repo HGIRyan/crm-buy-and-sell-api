@@ -6,13 +6,13 @@ using API.MongoData;
 using API.MongoData.Models.Auth;
 using MongoDB.Driver;
 
-namespace API.Auth.Services
+namespace API.Auth.Repository
 {
-    public class UserInfoService : BaseService, IUserInfo
+    public class UserInfoRepositoryRepository : BaseService, IUserInfoRepository
     {
         private readonly IMongoCollection<UserInfo> _userInfo;
 
-        public UserInfoService(IMongoSettings mongoSettings)
+        public UserInfoRepositoryRepository(IMongoSettings mongoSettings)
         {
             var client = new MongoClient(mongoSettings.MongoUri);
             var database = client.GetDatabase(Documents.UserInfo.Database);

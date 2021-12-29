@@ -22,8 +22,9 @@ namespace API.Authentication
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult GetContact(string contactId)
         {
-            return Ok(_contact.GetContact(contactId));
+            return Ok(_contact.GetContact(_authManager, contactId));
         }
+
         [HttpPost("/api/contact/AddContact")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult AddContact(Contact contact)

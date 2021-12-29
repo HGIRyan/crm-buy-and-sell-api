@@ -1,26 +1,19 @@
-using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web.Http;
 using API.Auth.Dto;
-using API.Modules.App.Shared.Response;
 using API.Modules.Base.Services;
 using API.MongoData.Models.Auth;
-using Microsoft.AspNetCore.Mvc;
-using API.Modules.Base.Services;
 
 namespace API.Modules.Base.Auth.Services
 {
     public class AuthenticationService : BaseService, IAuthentication
     {
-        private readonly IUserInfo _userInfoService;
+        private readonly IUserInfoRepository _userInfoRepositoryRepository;
 
-        public AuthenticationService(IUserInfo userInfoService)
+        public AuthenticationService(IUserInfoRepository userInfoRepositoryRepository)
         {
-            _userInfoService = userInfoService;
+            _userInfoRepositoryRepository = userInfoRepositoryRepository;
         }
 
 
@@ -35,12 +28,13 @@ namespace API.Modules.Base.Auth.Services
                 Password = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUserDto.Password)),
                 PasswordSalt = hmac.Key
             };
-            return _userInfoService.Create(newUserInfo);
+            return _userInfoRepositoryRepository.Create(newUserInfo);
         }
 
         public UserDto LoginUser(IAuthManagerService authService, UserDto user)
         {
-            var returnedUser = _userInfoService.FindByEmail(user.Email.ToLower());
+            var returnedUser = _userInfoRepositoryRepository.FindByEmail(user.Email.ToLower());
+
 
             if (returnedUser == null)
                 return new UserDto
@@ -61,6 +55,8 @@ namespace API.Modules.Base.Auth.Services
                     IsSuccess = false
                 };
             }
+
+            authService.AuthManagerFields.InitializeSession(returnedUser.LogoId);
 
             return new UserDto(returnedUser)
             {
