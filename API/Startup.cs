@@ -3,6 +3,7 @@ using API.Extensions.DependancyInjection;
 using API.Modules.App.Customer.Contact.Extensions;
 using API.Modules.Base.Auth.Extensions;
 using API.Modules.Base.Services.Mongo.MongoData;
+using API.Modules.Base.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,10 +28,13 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var settings = Configuration.Get<Settings>();
             //Configures MongoDb
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
             services.AddSingleton<IMongoSettings>(x => x.GetRequiredService<IOptions<MongoSettings>>().Value);
 
+            services.AddSingleton<ISettings>(settings);
+            
             services.AddAuthenticationModule();
             services.AddCustomerModule();
             services.AddSampleCustomerModule();

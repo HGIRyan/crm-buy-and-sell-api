@@ -17,15 +17,11 @@ namespace API.Modules.Base.Auth.Services
     public class AuthManagerService : IAuthManagerService
     {
         private readonly SymmetricSecurityKey _key;
-        private readonly IHttpContextAccessor _Accessor;
-        private readonly IContactRepository _cookieRepository;
         private readonly ISettings _AppSettings;
 
-        public AuthManagerService(IConfiguration config, ISettings appSettings, IHttpContextAccessor accessor, IContactRepository cookieRepository)
+        public AuthManagerService(IConfiguration config, ISettings appSettings)
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
-            _Accessor = accessor;
-            _cookieRepository = cookieRepository;
             _AppSettings = appSettings;
 
             AuthManagerFields = new AuthManagerFields();
