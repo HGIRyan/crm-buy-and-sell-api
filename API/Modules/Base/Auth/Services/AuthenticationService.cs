@@ -1,16 +1,9 @@
-using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web.Http;
 using API.Auth.Dto;
-using API.Modules.App.Shared.Response;
 using API.Modules.Base.Services;
 using API.MongoData.Models.Auth;
-using Microsoft.AspNetCore.Mvc;
-using API.Modules.Base.Services;
 
 namespace API.Modules.Base.Auth.Services
 {
@@ -42,6 +35,7 @@ namespace API.Modules.Base.Auth.Services
         {
             var returnedUser = _userInfoRepositoryRepository.FindByEmail(user.Email.ToLower());
 
+
             if (returnedUser == null)
                 return new UserDto
                 {
@@ -61,6 +55,8 @@ namespace API.Modules.Base.Auth.Services
                     IsSuccess = false
                 };
             }
+
+            authService.AuthManagerFields.InitializeSession(returnedUser.LogoId);
 
             return new UserDto(returnedUser)
             {

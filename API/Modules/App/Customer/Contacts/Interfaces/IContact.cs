@@ -1,3 +1,4 @@
+using API.Modules.Base.Auth;
 using API.MongoData.Model;
 
 namespace API.SampleCustomers.Interfaces
@@ -6,7 +7,7 @@ namespace API.SampleCustomers.Interfaces
     {
         #region Contacts
 
-        Contact GetContact(string contactId);
+        Contact GetContact(IAuthManagerService authService, string contactId);
         Contact AddContact(Contact contact);
 
         SampleCustomer GetSampleCustomerById(string mongoId);

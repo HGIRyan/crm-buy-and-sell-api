@@ -27,7 +27,7 @@ namespace API.Modules.Base.Auth.Services
             AuthManagerFields = new AuthManagerFields()
             {
                 HttpContext = httpContext.HttpContext,
-                Session = httpContext.HttpContext?.Session
+                HttpSession = httpContext.HttpContext?.Session
             };
         }
 
