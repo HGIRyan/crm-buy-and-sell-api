@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\ExceptionFilters" />
-    <Folder Include="Modules\App\Customer\Logos\Services" />
     <Folder Include="Modules\App\Integrations" />
     <Folder Include="Modules\App\Shared\Interfaces" />
     <Folder Include="Modules\App\Shared\Repositories" />
