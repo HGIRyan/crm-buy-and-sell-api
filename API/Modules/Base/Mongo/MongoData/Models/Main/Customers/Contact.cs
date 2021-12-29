@@ -8,10 +8,9 @@ namespace API.MongoData.Model
     public class Contact
     {
         #region Constructors
-        public const string DOCUMENT_TYPE = "contact";
         public Contact()
         {
-            this.DocType = DOCUMENT_TYPE;
+            this.DocType = Documents.Contacts.Database;
             this.DateCreated = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
         }
         #endregion
