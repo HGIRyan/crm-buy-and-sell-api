@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace API.Logos.Repositories
 {
-    public class LogoConfigRepository : BaseService, ILogoConfig
+    public class LogoConfigRepository : BaseService, ILogoConfigRepository
     {
         private readonly IMongoCollection<LogoConfig> _logoConfig;
 

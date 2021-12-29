@@ -3,7 +3,7 @@ using API.MongoData.Model;
 
 namespace API.Modules.App.Customer.Logos.Interfaces
 {
-    public interface ILogoConfig
+    public interface ILogoConfigRepository
     {
         LogoConfig Create(LogoConfig sampleCustomer);
         LogoConfig FindById(string mongoId);

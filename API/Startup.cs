@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using API.Extensions.DependancyInjection;
 using API.Modules.App.Customer.Contact.Extensions;
+using API.Modules.App.Customer.Logo.Extensions;
 using API.Modules.Base.Auth.Extensions;
 using API.Modules.Base.Services.Mongo.MongoData;
 using API.Modules.Base.Settings;
@@ -54,6 +55,7 @@ namespace API
 
             services.AddAuthenticationModule();
             services.AddCustomerModule();
+            services.AddLogoModule();
             services.AddSampleCustomerModule();
 
             services.AddCors(options =>
