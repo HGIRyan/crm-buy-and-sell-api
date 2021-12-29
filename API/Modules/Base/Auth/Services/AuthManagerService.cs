@@ -19,18 +19,23 @@ namespace API.Modules.Base.Auth.Services
         private readonly SymmetricSecurityKey _key;
         private readonly ISettings _AppSettings;
 
-        public AuthManagerService(IConfiguration config, ISettings appSettings)
+        public AuthManagerService(IConfiguration config, ISettings appSettings, IHttpContextAccessor httpContext)
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
             _AppSettings = appSettings;
 
-            AuthManagerFields = new AuthManagerFields();
+            AuthManagerFields = new AuthManagerFields()
+            {
+                HttpContext = httpContext.HttpContext,
+                Session = httpContext.HttpContext?.Session
+            };
         }
+
         public void AddHeader(string key, string value)
         {
             throw new System.NotImplementedException();
         }
-        
+
         public string CreateToken(UserInfo user)
         {
             var claims = new List<Claim>
@@ -52,7 +57,7 @@ namespace API.Modules.Base.Auth.Services
 
             return tokenHandler.WriteToken(token);
         }
-        
+
         public ClaimsPrincipal GetPrincipalFromToken(string token)
         {
             var tokenValidationParameters = new TokenValidationParameters
@@ -68,13 +73,13 @@ namespace API.Modules.Base.Auth.Services
             SecurityToken securityToken;
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase))
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512,
+                    StringComparison.InvariantCultureIgnoreCase))
                 throw new SecurityTokenException("Invalid Token");
-            
+
             return principal;
         }
-        
-        public AuthManagerFields AuthManagerFields { get; set; }
 
+        public AuthManagerFields AuthManagerFields { get; set; }
     }
 }
