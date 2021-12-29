@@ -39,7 +39,7 @@ namespace API
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".cookie.fnf";
-                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.IdleTimeout = TimeSpan.FromDays(7);
                 options.Cookie.IsEssential = true;
             });
 

@@ -21,8 +21,8 @@ namespace API.SampleCustomers.Services
 
         public Contact GetContact(IAuthManagerService authService, string contactId)
         {
-            var logoId = authService.AuthManagerFields.GetSession();
-            return _contactRepository.FindById(contactId);
+            var logoId = authService.AuthManagerFields.GetSession().LogoId;
+            return _contactRepository.FindById(contactId, logoId);
         }
 
         public Contact AddContact(Contact contact)
