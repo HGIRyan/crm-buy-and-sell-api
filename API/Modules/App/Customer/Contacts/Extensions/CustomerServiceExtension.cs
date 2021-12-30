@@ -10,7 +10,7 @@ namespace API.Modules.App.Customer.Contact.Extensions
     {
         public static IServiceCollection AddCustomerModule(this IServiceCollection services)
         {
-            services.AddScoped<IContact, ContactsService>();
+            services.AddScoped<IContactService, ContactsService>();
             services.AddScoped<IContactRepository, ContactRepository>();
 
             return services;

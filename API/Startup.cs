@@ -38,8 +38,12 @@ namespace API
 
             services.AddSession(options =>
             {
-                options.Cookie.Name = ".cookie.fnf";
+                options.Cookie.Name = "fnfAuth";
                 options.IdleTimeout = TimeSpan.FromDays(7);
+                options.Cookie.Domain = "localhost";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.IsEssential = true;
             });
 
@@ -56,12 +60,11 @@ namespace API
             services.AddAuthenticationModule();
             services.AddCustomerModule();
             services.AddLogoModule();
-            services.AddSampleCustomerModule();
 
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+                    policy.AllowAnyHeader().AllowCredentials().AllowAnyMethod().WithOrigins("http://localhost:3000"));
             });
 
             services.AddControllers();

@@ -7,6 +7,7 @@ namespace API.Contacts.Interfaces
     {
         Contact Create(Contact sampleCustomer);
         Contact FindById(string mongoId, string logoId);
+        IList<Contact> FindByLogoId(string logoId);
         IList<Contact> Read();
         void Update(Contact sampleCustomer);
         void Delete(string mongoDb);

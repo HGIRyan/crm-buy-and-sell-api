@@ -26,10 +26,15 @@ namespace API.Contacts.Repositories
             _contact.InsertOne(contact);
             return contact;
         }
-        
+
         public Contact FindById(string mongoId, string logoId)
         {
             return _contact.Find(x => x.ContactId == mongoId && x.LogoId == logoId).SingleOrDefault();
+        }
+
+        public IList<Contact> FindByLogoId(string logoId)
+        {
+            return _contact.Find(x => x.LogoId == logoId).ToList();
         }
 
 

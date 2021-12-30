@@ -11,47 +11,32 @@ namespace API.Authentication
     [Authorize]
     public class ContactController : BaseApiController
     {
-        private readonly IContact _contact;
+        private readonly IContactService _contactService;
 
-        public ContactController(IContact contact, IAuthManagerService authManager) : base(authManager)
+        public ContactController(IContactService contactService, IAuthManagerService authManager) : base(authManager)
         {
-            _contact = contact;
+            _contactService = contactService;
         }
 
         [HttpGet("/api/contact/GetContact")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult GetContact(string contactId)
         {
-            return Ok(_contact.GetContact(_authManager, contactId));
+            return Ok(_contactService.GetContact(_authManager, contactId));
+        }
+
+        [HttpGet("/api/contact/GetContacts")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public IActionResult GetContacts()
+        {
+            return Ok(_contactService.GetContacts(_authManager));
         }
 
         [HttpPost("/api/contact/AddContact")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult AddContact(Contact contact)
         {
-            return Ok(_contact.AddContact(contact));
-        }
-
-        [HttpGet("/api/SampleCustomer/Find")]
-        [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
-        public IActionResult GetSampleCustomerById(string mongoId)
-        {
-            return Ok(_contact.GetSampleCustomerById(mongoId));
-        }
-
-        [HttpGet("/api/SampleCustomer/Create")]
-        [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
-        public SampleCustomer CreateNewSampleCustomer(string username)
-        {
-            return _contact.CreateNewSampleCustomer(username);
-        }
-
-        [HttpGet("/api/SampleCustomer/Update")]
-        [ProducesResponseType(typeof(SampleCustomer), StatusCodes.Status200OK)]
-        public SampleCustomer UpdateSampleCustomer(string mongoId, string username)
-        {
-            var account = _authManager;
-            return _contact.UpdateSampleCustomer(mongoId, username);
+            return Ok(_contactService.AddContact(_authManager, contact));
         }
     }
 }
