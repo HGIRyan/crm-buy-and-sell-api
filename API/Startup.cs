@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using API.Extensions.DependancyInjection;
 using API.Modules.App.Customer.Contact.Extensions;
+using API.Modules.App.Customer.Logo.Extensions;
 using API.Modules.Base.Auth.Extensions;
 using API.Modules.Base.Services.Mongo.MongoData;
 using API.Modules.Base.Settings;
@@ -37,8 +38,13 @@ namespace API
 
             services.AddSession(options =>
             {
-                options.Cookie.Name = ".cookie.fnf";
-                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.Cookie.Name = "fnfAuth";
+                options.IdleTimeout = TimeSpan.FromDays(7);
+                options.Cookie.MaxAge = TimeSpan.FromDays(7);
+                options.Cookie.Domain = "localhost";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.IsEssential = true;
             });
 
@@ -54,12 +60,12 @@ namespace API
 
             services.AddAuthenticationModule();
             services.AddCustomerModule();
-            services.AddSampleCustomerModule();
+            services.AddLogoModule();
 
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+                    policy.AllowAnyHeader().AllowCredentials().AllowAnyMethod().WithOrigins("http://localhost:3000"));
             });
 
             services.AddControllers();
