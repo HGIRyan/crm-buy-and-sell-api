@@ -40,7 +40,6 @@ namespace API
             {
                 options.Cookie.Name = "fnfAuth";
                 options.IdleTimeout = TimeSpan.FromDays(7);
-                options.Cookie.Expiration = TimeSpan.FromDays(7);
                 options.Cookie.MaxAge = TimeSpan.FromDays(7);
                 options.Cookie.Domain = "localhost";
                 options.Cookie.HttpOnly = true;
