@@ -25,6 +25,11 @@ namespace API.Modules.Base.Auth.Models
             };
         }
 
+        public void DestroySession()
+        {
+            HttpSession.Clear();
+        }
+
         public class Session
         {
             public string LogoId { get; set; }
