@@ -30,11 +30,18 @@ namespace API.Authentication
         {
             return _authentication.CreateNewUser(_authManager, registerUserDto);
         }
+
         [HttpPost("/api/UserInfo/Login")]
         [ProducesResponseType(typeof(ActionResult<UserInfo>), StatusCodes.Status200OK)]
         public UserDto LoginUser(UserDto userDto)
         {
             return _authentication.LoginUser(_authManager, userDto);
+        }
+
+        [HttpGet("/api/UserInfo/LogOut")]
+        public void LogoutUser()
+        {
+            _authManager.AuthManagerFields.DestroySession();
         }
 
         #endregion
