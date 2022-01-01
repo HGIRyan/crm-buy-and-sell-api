@@ -37,6 +37,19 @@ namespace API.Contacts.Repositories
             return _contact.Find(x => x.LogoId == logoId).ToList();
         }
 
+        public long getContactCount(string logoId)
+        {
+            return _contact.Find(x => x.LogoId == logoId).CountDocuments();
+        }
+
+        public IList<Contact> FindByLogoIdAndLimitPage(string logoId, int page, int limit)
+        {
+            var skip = page * limit;
+            return _contact.Find(x => x.LogoId == logoId).SortBy(contact => contact.ContactId)
+                .Skip(skip)
+                .Limit(limit).ToList();
+        }
+
 
         public IList<Contact> Read()
         {

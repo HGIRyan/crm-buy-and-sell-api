@@ -1,3 +1,4 @@
+using System;
 using API.Auth.Dto;
 using API.Modules.App.Customer.Logos.Interfaces;
 using API.Modules.Base.Auth;
@@ -29,20 +30,31 @@ namespace API.Modules.App.Customer.Logos.Services
 
         public GlobalConfigDto GetGlobalConfig(AuthManagerFields authManager)
         {
-            var session = authManager.GetSession();
-            if (session == null)
+            try
+            {
+                var session = authManager.GetSession();
+                if (session == null)
+                {
+                    return new GlobalConfigDto()
+                    {
+                        IsSuccess = false,
+                        Message = "Session Not Found"
+                    };
+                }
+
+                var sessionUser = _userInfoRepository.FindById(session.UserId);
+                var sessionLogo = _logoConfigRepository.FindById(session.LogoId);
+
+                return new GlobalConfigDto(sessionUser, sessionLogo);
+            }
+            catch (Exception e)
             {
                 return new GlobalConfigDto()
                 {
                     IsSuccess = false,
-                    Message = "Session Not Found"
+                    Message = "Issue With Session"
                 };
             }
-
-            var sessionUser = _userInfoRepository.FindById(session.UserId);
-            var sessionLogo = _logoConfigRepository.FindById(session.LogoId);
-            
-            return new GlobalConfigDto(sessionUser, sessionLogo);
         }
     }
 }
