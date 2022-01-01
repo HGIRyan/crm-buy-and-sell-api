@@ -33,7 +33,7 @@ namespace API.Authentication
 
         [HttpPost("/api/UserInfo/Login")]
         [ProducesResponseType(typeof(ActionResult<UserInfo>), StatusCodes.Status200OK)]
-        public UserDto LoginUser(UserDto userDto)
+        public GlobalConfigDto LoginUser(UserDto userDto)
         {
             return _authentication.LoginUser(_authManager, userDto);
         }

@@ -12,7 +12,7 @@ namespace API.Modules.Base.Auth
 
         UserInfo CreateNewUser(IAuthManagerService authService, RegisterUserDto registerUserDto);
 
-        UserDto LoginUser(IAuthManagerService authService, UserDto userDto);
+        GlobalConfigDto LoginUser(IAuthManagerService authService, UserDto userDto);
 
         #endregion
 

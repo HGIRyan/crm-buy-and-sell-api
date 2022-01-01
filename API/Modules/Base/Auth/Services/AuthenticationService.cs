@@ -39,13 +39,12 @@ namespace API.Modules.Base.Auth.Services
             return _userInfoRepositoryRepository.Create(newUserInfo);
         }
 
-        public UserDto LoginUser(IAuthManagerService authService, UserDto user)
+        public GlobalConfigDto LoginUser(IAuthManagerService authService, UserDto user)
         {
             var returnedUser = _userInfoRepositoryRepository.FindByEmail(user.Email.ToLower());
 
-
             if (returnedUser == null)
-                return new UserDto
+                return new GlobalConfigDto
                 {
                     Message = "User Not Found",
                     IsSuccess = false
@@ -57,18 +56,21 @@ namespace API.Modules.Base.Auth.Services
 
             if (computedHash.Where((t, i) => t != returnedUser.Password[i]).Any())
             {
-                return new UserDto
+                return new GlobalConfigDto
                 {
                     Message = "Password Incorrect",
                     IsSuccess = false
                 };
             }
 
-            authService.AuthManagerFields.InitializeSession(returnedUser.LogoId);
+            authService.AuthManagerFields.InitializeSession(returnedUser.LogoId, returnedUser.MongoId);
 
-            return new UserDto(returnedUser)
+            var config = _logoConfigService.GetLogoConfig(returnedUser.LogoId);
+
+            return new GlobalConfigDto(returnedUser)
             {
-                UserToken = authService.CreateToken(returnedUser)
+                UserToken = authService.CreateToken(returnedUser),
+                LogoConfig = config
             };
         }
     }
