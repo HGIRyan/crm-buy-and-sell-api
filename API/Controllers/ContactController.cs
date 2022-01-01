@@ -1,12 +1,11 @@
 using API.SampleCustomers.Interfaces;
-using API.Controllers;
 using API.Modules.Base.Auth;
 using API.MongoData.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Authentication
+namespace API.Controllers
 {
     [Authorize]
     public class ContactController : BaseApiController
