@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 using API.Contacts.Interfaces;
+using API.Modules.App.Contacts.Dto;
 using API.Modules.Base.Auth;
 using API.Modules.Base.Services;
 using API.MongoData.Model;
 using API.SampleCustomers.Interfaces;
-using Microsoft.AspNetCore.Http;
 
-namespace API.SampleCustomers.Services
+namespace API.Contacts.Services
 {
     public class ContactsService : BaseService, IContactService
     {
@@ -23,10 +22,23 @@ namespace API.SampleCustomers.Services
             var logoId = authService.AuthManagerFields.GetSession().LogoId;
             return _contactRepository.FindById(contactId, logoId);
         }
+
         public IList<Contact> GetContacts(IAuthManagerService authService)
         {
             var logoId = authService.AuthManagerFields.GetSession().LogoId;
             return _contactRepository.FindByLogoId(logoId);
+        }
+
+        public ContactListDto GetContactList(IAuthManagerService authService, int page, int limit)
+        {
+            var logoId = authService.AuthManagerFields.GetSession().LogoId;
+            var count = _contactRepository.getContactCount(logoId);
+            var contacts = _contactRepository.FindByLogoIdAndLimitPage(logoId, page, limit);
+            return new ContactListDto()
+            {
+                Count = count,
+                Contacts = contacts
+            };
         }
 
         public Contact AddContact(IAuthManagerService authService, Contact contact)

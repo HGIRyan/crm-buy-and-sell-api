@@ -24,6 +24,13 @@ namespace API.Controllers
             return Ok(_contactService.GetContact(_authManager, contactId));
         }
 
+        [HttpGet("/api/contact/GetContactList")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public IActionResult GetContactList(int page, int limit)
+        {
+            return Ok(_contactService.GetContactList(_authManager, page, limit));
+        }
+
         [HttpGet("/api/contact/GetContacts")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public IActionResult GetContacts()
